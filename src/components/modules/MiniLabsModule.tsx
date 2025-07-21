@@ -23,7 +23,9 @@ interface LabResult {
   details: string[];
 }
 
-export const MiniLabsModule = () => {
+export { EnhancedMiniLabsModule as MiniLabsModule } from './EnhancedMiniLabsModule';
+
+export const OriginalMiniLabsModule = () => {
   const [currentLab, setCurrentLab] = useState<'malware' | 'phishing' | 'password' | 'firewall' | 'logs'>('malware');
   const [malwareResult, setMalwareResult] = useState<LabResult | null>(null);
   const [phishingResult, setPhishingResult] = useState<LabResult | null>(null);
