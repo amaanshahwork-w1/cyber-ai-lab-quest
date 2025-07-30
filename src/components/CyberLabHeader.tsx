@@ -32,12 +32,12 @@ export const CyberLabHeader = () => {
               AI Cybersecurity Lab
             </div>
             
-            <h1 className="text-5xl lg:text-7xl font-bold bg-gradient-cyber bg-clip-text text-transparent animate-float font-cyber">
+            <h1 className="text-5xl lg:text-7xl font-bold text-primary animate-float font-cyber drop-shadow-2xl">
               🔐 C.R.A.F.T.
             </h1>
             
             <h2 className="text-3xl lg:text-4xl font-bold text-foreground font-cyber">
-              Cybersecurity <span className="text-primary">AI</span> Training
+              Cybersecurity <span className="text-cyber-green animate-glow">AI</span> Training
             </h2>
             
             <p className="text-xl text-muted-foreground max-w-2xl">

@@ -210,6 +210,10 @@
     animation: glow 2s ease-in-out infinite alternate;
   }
 
+  .drop-shadow-glow {
+    filter: drop-shadow(0 0 10px hsl(var(--primary)));
+  }
+
   .animate-scan {
     animation: scan 2s ease-in-out infinite;
   }
