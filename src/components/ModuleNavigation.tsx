@@ -1,5 +1,5 @@
 import React from 'react';
-import { Book, Brain, Shield, Zap, Terminal, Target, HelpCircle, Trophy } from 'lucide-react';
+import { Book, Brain, Shield, Zap, Terminal, Target, HelpCircle, Trophy, Activity, Code } from 'lucide-react';
 
 interface Module {
   id: string;
@@ -38,9 +38,23 @@ const modules: Module[] = [
   },
   {
     id: 'mini-labs',
-    title: 'Hands-On Labs',
+    title: 'Enhanced Labs',
     icon: <Terminal className="w-5 h-5" />,
-    description: 'Practice with real simulations',
+    description: 'Advanced security simulations',
+    completed: false,
+  },
+  {
+    id: 'threat-intel',
+    title: 'Threat Intel',
+    icon: <Activity className="w-5 h-5" />,
+    description: 'Live threat monitoring dashboard',
+    completed: false,
+  },
+  {
+    id: 'interactive-sim',
+    title: 'Code Lab',
+    icon: <Code className="w-5 h-5" />,
+    description: 'Interactive security coding',
     completed: false,
   },
   {

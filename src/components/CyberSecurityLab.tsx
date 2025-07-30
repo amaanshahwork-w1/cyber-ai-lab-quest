@@ -3,7 +3,9 @@ import { CyberLabHeader } from './CyberLabHeader';
 import { ModuleNavigation } from './ModuleNavigation';
 import { WelcomeModule } from './modules/WelcomeModule';
 import { AiConceptsModule } from './modules/AiConceptsModule';
-import { MiniLabsModule } from './modules/MiniLabsModule';
+import { EnhancedMiniLabsModule } from './modules/EnhancedMiniLabsModule';
+import { ThreatIntelligenceDashboard } from './ThreatIntelligenceDashboard';
+import { InteractiveSimulation } from './InteractiveSimulation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -378,7 +380,11 @@ export const CyberSecurityLab = () => {
       case 'owasp-threats':
         return <OWASPThreatsModule />;
       case 'mini-labs':
-        return <MiniLabsModule />;
+        return <EnhancedMiniLabsModule />;
+      case 'threat-intel':
+        return <ThreatIntelligenceDashboard />;
+      case 'interactive-sim':
+        return <InteractiveSimulation />;
       case 'ai-tools':
         return <AIToolsModule />;
       case 'myths-reality':
