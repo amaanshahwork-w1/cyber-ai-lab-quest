@@ -96,6 +96,8 @@ export const EnhancedMiniLabsModule = () => {
 
   // Professional threat simulation with realistic data
   const simulateMalwareScan = async (filename: string) => {
+    if (!filename.trim()) return; // Prevent empty analysis
+    
     setIsScanning(true);
     setMalwareResult(null);
     
@@ -197,7 +199,9 @@ export const EnhancedMiniLabsModule = () => {
     setScanProgress(null);
   };
 
-  const analyzeEmail = async (emailContent: string, subject: string) => {
+  const analyzeEmail = async (emailContent: string, subject: string = '') => {
+    if (!emailContent.trim()) return; // Prevent empty analysis
+    
     setIsScanning(true);
     setPhishingResult(null);
 
@@ -306,6 +310,8 @@ export const EnhancedMiniLabsModule = () => {
   };
 
   const analyzePassword = async (password: string) => {
+    if (!password.trim()) return; // Prevent empty analysis
+    
     setIsScanning(true);
     setPasswordResult(null);
 
