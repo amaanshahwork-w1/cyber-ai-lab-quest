@@ -19,7 +19,13 @@ import {
   ChevronDown,
   ExternalLink,
   Github,
-  BookOpen
+  BookOpen,
+  Play,
+  ArrowRight,
+  CheckCircle,
+  XCircle,
+  Download,
+  RotateCcw
 } from 'lucide-react';
 
 // Placeholder modules for now
@@ -236,45 +242,299 @@ const MythsRealityModule = () => (
   </Card>
 );
 
-const QuizChallengeModule = () => (
-  <Card className="bg-gradient-card border-primary/20 shadow-glow-cyan">
-    <CardHeader>
-      <CardTitle className="flex items-center gap-3 text-2xl">
-        <div className="p-3 bg-gradient-cyber rounded-lg">
-          <HelpCircle className="w-6 h-6 text-black" />
-        </div>
-        Final Knowledge Challenge
-      </CardTitle>
-    </CardHeader>
-    <CardContent>
-      <div className="text-center space-y-6">
-        <div className="bg-gradient-cyber rounded-lg p-8 text-black">
-          <h3 className="text-2xl font-bold mb-4">🏆 Test Your Skills</h3>
-          <p className="text-lg">Complete this comprehensive quiz to earn your AI Cybersecurity Certificate!</p>
-        </div>
-        
-        <div className="grid md:grid-cols-3 gap-4">
-          <div className="bg-terminal-bg p-6 rounded-lg border border-cyber-green/20">
-            <h4 className="font-semibold text-cyber-green mb-2">5 Questions</h4>
-            <p className="text-sm text-muted-foreground">Multiple choice, drag-and-drop, and scenario-based</p>
+const QuizChallengeModule = () => {
+  const [isStarted, setIsStarted] = useState(false);
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+  const [score, setScore] = useState(0);
+  const [showFeedback, setShowFeedback] = useState(false);
+  const [quizCompleted, setQuizCompleted] = useState(false);
+
+  const challengeQuestions = [
+    {
+      id: 'q1',
+      question: 'Which machine learning technique is most effective for detecting zero-day malware attacks?',
+      options: [
+        'Signature-based detection using known patterns',
+        'Unsupervised anomaly detection analyzing behavior',
+        'Rule-based expert systems',
+        'Simple hash comparison algorithms'
+      ],
+      correct: 1,
+      explanation: 'Unsupervised anomaly detection can identify previously unknown threats by detecting unusual behavior patterns, making it ideal for zero-day attacks.'
+    },
+    {
+      id: 'q2',
+      question: 'What is the primary advantage of using transformer models like BERT for phishing email detection?',
+      options: [
+        'They only work with English text',
+        'They understand context and semantic meaning in text',
+        'They are faster than simple keyword matching',
+        'They require less training data'
+      ],
+      correct: 1,
+      explanation: 'BERT and similar transformer models excel at understanding context and semantic relationships in text, allowing them to detect sophisticated phishing attempts that simple keyword matching might miss.'
+    },
+    {
+      id: 'q3',
+      question: 'In network intrusion detection, what makes ensemble methods particularly effective?',
+      options: [
+        'They only use one algorithm',
+        'They combine multiple models to reduce false positives',
+        'They work only on encrypted traffic',
+        'They require manual rule updates'
+      ],
+      correct: 1,
+      explanation: 'Ensemble methods combine predictions from multiple models, which helps reduce false positives and improves overall detection accuracy by leveraging the strengths of different algorithms.'
+    },
+    {
+      id: 'q4',
+      question: 'What is a key challenge when implementing AI for real-time cybersecurity monitoring?',
+      options: [
+        'AI models are too accurate',
+        'Balancing detection speed with accuracy',
+        'AI cannot work with encrypted data',
+        'Too much training data available'
+      ],
+      correct: 1,
+      explanation: 'Real-time cybersecurity requires balancing the speed of detection (to respond quickly to threats) with accuracy (to minimize false positives that could overwhelm security teams).'
+    },
+    {
+      id: 'q5',
+      question: 'Which approach is most effective for defending against adversarial attacks on AI security models?',
+      options: [
+        'Using only traditional security methods',
+        'Adversarial training and robust model design',
+        'Increasing model complexity indefinitely',
+        'Avoiding AI in security applications'
+      ],
+      correct: 1,
+      explanation: 'Adversarial training, where models are trained on both normal and adversarial examples, combined with robust model architectures, provides the best defense against adversarial attacks.'
+    }
+  ];
+
+  const handleAnswerSelect = (answerIndex: number) => {
+    setSelectedAnswer(answerIndex);
+    setShowFeedback(true);
+    
+    if (answerIndex === challengeQuestions[currentQuestion].correct) {
+      setScore(score + 1);
+    }
+  };
+
+  const nextQuestion = () => {
+    if (currentQuestion < challengeQuestions.length - 1) {
+      setCurrentQuestion(currentQuestion + 1);
+      setSelectedAnswer(null);
+      setShowFeedback(false);
+    } else {
+      setQuizCompleted(true);
+    }
+  };
+
+  const startChallenge = () => {
+    setIsStarted(true);
+    setCurrentQuestion(0);
+    setSelectedAnswer(null);
+    setScore(0);
+    setShowFeedback(false);
+    setQuizCompleted(false);
+  };
+
+  if (!isStarted) {
+    return (
+      <Card className="bg-gradient-card border-primary/20 shadow-glow-cyan">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-3 text-2xl">
+            <div className="p-3 bg-gradient-cyber rounded-lg">
+              <HelpCircle className="w-6 h-6 text-black" />
+            </div>
+            Final Knowledge Challenge
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="text-center space-y-6">
+            <div className="bg-gradient-cyber rounded-lg p-8 text-black">
+              <h3 className="text-2xl font-bold mb-4">🏆 Test Your Skills</h3>
+              <p className="text-lg">Complete this comprehensive quiz to earn your AI Cybersecurity Certificate!</p>
+            </div>
+            
+            <div className="grid md:grid-cols-3 gap-4">
+              <div className="bg-terminal-bg p-6 rounded-lg border border-cyber-green/20">
+                <h4 className="font-semibold text-cyber-green mb-2">5 Questions</h4>
+                <p className="text-sm text-muted-foreground">Multiple choice, drag-and-drop, and scenario-based</p>
+              </div>
+              <div className="bg-terminal-bg p-6 rounded-lg border border-cyber-orange/20">
+                <h4 className="font-semibold text-cyber-orange mb-2">Real-Time Feedback</h4>
+                <p className="text-sm text-muted-foreground">Instant explanations for each answer</p>
+              </div>
+              <div className="bg-terminal-bg p-6 rounded-lg border border-accent/20">
+                <h4 className="font-semibold text-accent mb-2">Certificate Ready</h4>
+                <p className="text-sm text-muted-foreground">Downloadable completion certificate</p>
+              </div>
+            </div>
+
+            <Button 
+              size="lg" 
+              className="bg-gradient-cyber text-black hover:opacity-90 animate-pulse"
+              onClick={startChallenge}
+            >
+              <Play className="w-5 h-5 mr-2" />
+              Start Final Challenge
+            </Button>
           </div>
-          <div className="bg-terminal-bg p-6 rounded-lg border border-cyber-orange/20">
-            <h4 className="font-semibold text-cyber-orange mb-2">Real-Time Feedback</h4>
-            <p className="text-sm text-muted-foreground">Instant explanations for each answer</p>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (quizCompleted) {
+    const percentage = Math.round((score / challengeQuestions.length) * 100);
+    const passed = percentage >= 70;
+
+    return (
+      <Card className="bg-gradient-card border-primary/20 shadow-glow-cyan">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-3 text-2xl">
+            <div className="p-3 bg-gradient-cyber rounded-lg">
+              <Trophy className="w-6 h-6 text-black" />
+            </div>
+            Challenge Complete!
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="text-center space-y-6">
+          <div className={`p-8 rounded-lg ${passed ? 'bg-cyber-green/20 border border-cyber-green/50' : 'bg-cyber-orange/20 border border-cyber-orange/50'}`}>
+            <h3 className="text-3xl font-bold mb-4">
+              {passed ? '🎉 Congratulations!' : '📚 Keep Learning!'}
+            </h3>
+            <p className="text-xl mb-4">
+              You scored {score} out of {challengeQuestions.length} ({percentage}%)
+            </p>
+            <p className="text-lg">
+              {passed 
+                ? 'You have mastered AI cybersecurity fundamentals!' 
+                : 'Review the materials and try again to earn your certificate.'}
+            </p>
           </div>
-          <div className="bg-terminal-bg p-6 rounded-lg border border-accent/20">
-            <h4 className="font-semibold text-accent mb-2">Certificate Ready</h4>
-            <p className="text-sm text-muted-foreground">Downloadable completion certificate</p>
+
+          {passed && (
+            <div className="bg-gradient-cyber rounded-lg p-6 text-black">
+              <h4 className="text-xl font-bold mb-2">🏆 AI Cybersecurity Expert</h4>
+              <p className="mb-4">You have successfully completed the AI Cybersecurity Training Program</p>
+              <Button className="bg-black text-cyber-green hover:bg-gray-800">
+                <Download className="w-4 h-4 mr-2" />
+                Download Certificate
+              </Button>
+            </div>
+          )}
+
+          <Button 
+            variant="outline" 
+            onClick={() => setIsStarted(false)}
+            className="border-primary/50"
+          >
+            <RotateCcw className="w-4 h-4 mr-2" />
+            Try Again
+          </Button>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  const currentQ = challengeQuestions[currentQuestion];
+
+  return (
+    <Card className="bg-gradient-card border-primary/20 shadow-glow-cyan">
+      <CardHeader>
+        <CardTitle className="flex items-center gap-3 text-2xl">
+          <div className="p-3 bg-gradient-cyber rounded-lg">
+            <HelpCircle className="w-6 h-6 text-black" />
+          </div>
+          Final Challenge - Question {currentQuestion + 1}
+        </CardTitle>
+        <div className="flex justify-between items-center">
+          <span className="text-sm text-muted-foreground">
+            Question {currentQuestion + 1} of {challengeQuestions.length}
+          </span>
+          <div className="flex gap-1">
+            {challengeQuestions.map((_, index) => (
+              <div
+                key={index}
+                className={`w-3 h-3 rounded-full ${
+                  index < currentQuestion
+                    ? 'bg-cyber-green'
+                    : index === currentQuestion
+                    ? 'bg-primary'
+                    : 'bg-muted'
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+      </CardHeader>
+      <CardContent className="space-y-6">
+        <div className="bg-terminal-bg rounded-lg p-6 border border-primary/20">
+          <h3 className="text-lg font-semibold mb-6">{currentQ.question}</h3>
+          <div className="space-y-3">
+            {currentQ.options.map((option, index) => (
+              <button
+                key={index}
+                onClick={() => !showFeedback && handleAnswerSelect(index)}
+                disabled={showFeedback}
+                className={`w-full text-left p-4 rounded-lg border transition-all duration-300 ${
+                  showFeedback
+                    ? index === currentQ.correct
+                      ? 'bg-cyber-green/20 border-cyber-green text-cyber-green'
+                      : index === selectedAnswer && index !== currentQ.correct
+                      ? 'bg-destructive/20 border-destructive text-destructive'
+                      : 'bg-muted/10 border-muted text-muted-foreground'
+                    : selectedAnswer === index
+                    ? 'bg-primary/20 border-primary'
+                    : 'bg-card border-border hover:border-primary/50'
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <span className="w-6 h-6 rounded-full border border-current flex items-center justify-center text-sm">
+                    {String.fromCharCode(65 + index)}
+                  </span>
+                  {option}
+                  {showFeedback && index === currentQ.correct && (
+                    <CheckCircle className="w-5 h-5 text-cyber-green ml-auto" />
+                  )}
+                  {showFeedback && index === selectedAnswer && index !== currentQ.correct && (
+                    <XCircle className="w-5 h-5 text-destructive ml-auto" />
+                  )}
+                </div>
+              </button>
+            ))}
           </div>
         </div>
 
-        <Button size="lg" className="bg-gradient-cyber text-black hover:opacity-90">
-          Start Final Challenge
-        </Button>
-      </div>
-    </CardContent>
-  </Card>
-);
+        {showFeedback && (
+          <div className={`p-4 rounded-lg border ${
+            selectedAnswer === currentQ.correct
+              ? 'bg-cyber-green/10 border-cyber-green/50 text-cyber-green'
+              : 'bg-cyber-orange/10 border-cyber-orange/50 text-cyber-orange'
+          } animate-scale-up`}>
+            <p className="font-semibold mb-2">
+              {selectedAnswer === currentQ.correct ? '✅ Excellent!' : '❌ Not quite right.'}
+            </p>
+            <p className="text-sm">{currentQ.explanation}</p>
+          </div>
+        )}
+
+        {showFeedback && (
+          <div className="flex justify-center">
+            <Button onClick={nextQuestion} className="bg-gradient-cyber text-black hover:opacity-90">
+              {currentQuestion < challengeQuestions.length - 1 ? 'Next Question' : 'Complete Challenge'}
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </Button>
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+};
 
 const RoadmapModule = () => (
   <Card className="bg-gradient-card border-primary/20 shadow-glow-purple">
