@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CyberLabHeader } from './CyberLabHeader';
 import { ModuleNavigation } from './ModuleNavigation';
 import { WelcomeModule } from './modules/WelcomeModule';
@@ -6,6 +6,8 @@ import { AiConceptsModule } from './modules/AiConceptsModule';
 import { EnhancedMiniLabsModule } from './modules/EnhancedMiniLabsModule';
 import { ThreatIntelligenceDashboard } from './ThreatIntelligenceDashboard';
 import { InteractiveSimulation } from './InteractiveSimulation';
+import { Leaderboard } from './Leaderboard';
+import { useGame } from '@/contexts/GameContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -630,6 +632,15 @@ const RoadmapModule = () => (
 
 export const CyberSecurityLab = () => {
   const [currentModule, setCurrentModule] = useState('welcome');
+  const { completeModule, updateStreak } = useGame();
+
+  useEffect(() => {
+    updateStreak();
+  }, [updateStreak]);
+
+  const handleModuleComplete = (moduleId: string) => {
+    completeModule(moduleId);
+  };
 
   const renderModule = () => {
     switch (currentModule) {
@@ -637,14 +648,14 @@ export const CyberSecurityLab = () => {
         return <WelcomeModule />;
       case 'ai-concepts':
         return <AiConceptsModule />;
-      case 'owasp-threats':
-        return <OWASPThreatsModule />;
       case 'mini-labs':
         return <EnhancedMiniLabsModule />;
-      case 'threat-intel':
-        return <ThreatIntelligenceDashboard />;
       case 'interactive-sim':
         return <InteractiveSimulation />;
+      case 'threat-intel':
+        return <ThreatIntelligenceDashboard />;
+      case 'owasp-threats':
+        return <OWASPThreatsModule />;
       case 'ai-tools':
         return <AIToolsModule />;
       case 'myths-reality':
@@ -652,25 +663,28 @@ export const CyberSecurityLab = () => {
       case 'quiz-challenge':
         return <QuizChallengeModule />;
       case 'roadmap':
-        return <RoadmapModule />;
+        return (
+          <div className="space-y-6">
+            <RoadmapModule />
+            <Leaderboard />
+          </div>
+        );
       default:
         return <WelcomeModule />;
     }
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <CyberLabHeader />
-      
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid lg:grid-cols-4 gap-8">
+    <div className="min-h-screen bg-gradient-to-br from-background via-cyber-blue/5 to-cyber-purple/5">
+      <div className="container mx-auto px-4 py-8">
+        <CyberLabHeader />
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mt-8">
           <div className="lg:col-span-1">
             <ModuleNavigation 
-              currentModule={currentModule}
+              currentModule={currentModule} 
               onModuleSelect={setCurrentModule}
             />
           </div>
-          
           <div className="lg:col-span-3">
             {renderModule()}
           </div>
